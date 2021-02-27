@@ -72,8 +72,7 @@ function init() {
                 return internQs();
             }
             else {
-                console.log(data.toString()); writeToFile(data.toString());
-                fs.appendFileSync('./dist/index.html');
+                starterHtml();
                 return console.log("Your team has been complete!");
             }
     })
@@ -90,8 +89,7 @@ function engineerQs () {
                 return internQs();
             }
             else {
-                writeToFile(data.toString());
-                fs.appendFileSync('./dist/index.html');
+                starterHtml();
                 return console.log("Your team has been complete!");
             }
         });
@@ -108,21 +106,12 @@ function internQs (){
                 return internQ();
             }
             else {
-                writeToFile(data.toString());
-                fs.appendFileSync('./dist/index.html');
+                starterHtml();
                 return console.log("Your team has been complete!");
             }
         });
 }
 
-function writeToFile(data) {
-    fs.writeFileSync("./dist/index.html", starterHtml(data), err => {
-        if (err) {
-            console.log(err);
-        }
-        console.log('This team member has been added!')
-    });
-}
 
 function starterHtml(data) {
     const html = `<!DOCTYPE html>

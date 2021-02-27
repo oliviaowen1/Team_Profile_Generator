@@ -73,7 +73,7 @@ function init() {
             }
             else {
                 // writeToFile(data);
-                // fs.appendFileSync('./dist/index.html');
+                fs.appendFileSync('./dist/index.html');
                 return console.log("Your team has been complete!");
             }
     })
@@ -91,7 +91,7 @@ function engineerQs () {
             }
             else {
                 // writeToFile(data);
-                // fs.appendFileSync('./dist/index.html');
+                fs.appendFileSync('./dist/index.html');
                 return console.log("Your team has been complete!");
             }
         });
@@ -109,7 +109,7 @@ function internQs (){
             }
             else {
                 // writeToFile(data);
-                // fs.appendFileSync('./dist/index.html');
+                fs.appendFileSync('./dist/index.html');
                 return console.log("Your team has been complete!");
             }
         });

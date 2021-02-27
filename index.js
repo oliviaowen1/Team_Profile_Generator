@@ -20,7 +20,7 @@ const manQuestions = [
         message: "What's the managers office phone?"},
     {type: "list",
         name: "manAnother",
-        message: "Do you want to add another team member?",
+        message: "Do you want to add another team staff?",
         choices: ['Add an Engineer', 'Add an Intern', 'I do not want to add anyone else']}
 ];
 
@@ -39,7 +39,7 @@ const engQuestions = [
         message: "What's the engineers GitHub username?"},
     {type: "list",
         name: "engAnother",
-        message: "Do you want to add another team member?",
+        message: "Do you want to add another team staff?",
         choices: ['Add an Engineer', 'Add an Intern', 'I do not want to add anyone else']}
 ];
 const intQuestions = [
@@ -57,7 +57,7 @@ const intQuestions = [
         message: "What is the interns school?"},
     {type: "list",
         name: "intAnother",
-        message: "Do you want to add another team member?",
+        message: "Do you want to add another team staff?",
         choices: ['Add an Engineer', 'Add an Intern', 'I do not want to add anyone else']}
 ];
 
@@ -134,7 +134,81 @@ function starterHtml(data) {
             console.log(err);
         }
     });
-    console.log("start");
+    addHtml();
+}
+function addHtml(staff) {
+    return new Promise(function(resolve, reject) {
+        const name = staff.getName();
+        const role = staff.getRole();
+        const id = staff.getId();
+        const email = staff.getEmail();
+        let data = "";
+        if (role === "Engineer") {
+            const gitHub = staff.getGithub();
+            data = `<div class="col-6">
+            <div class="card mx-auto mb-3" style="width: 18rem">
+            <h5 class="card-header">${name}<br /><br />Engineer</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">ID: ${id}</li>
+                <li class="list-group-item">Email Address: ${email}</li>
+                <li class="list-group-item">GitHub: ${gitHub}</li>
+            </ul>
+            </div>
+        </div>`;
+        } else if (role === "Intern") {
+            const school = staff.getSchool();
+            data = `<div class="col-6">
+            <div class="card mx-auto mb-3" style="width: 18rem">
+            <h5 class="card-header">${name}<br /><br />Intern</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">ID: ${id}</li>
+                <li class="list-group-item">Email Address: ${email}</li>
+                <li class="list-group-item">School: ${school}</li>
+            </ul>
+            </div>
+        </div>`;
+        } else {
+            const officePhone = staff.getOfficeNumber();
+            data = `<div class="col-6">
+            <div class="card mx-auto mb-3" style="width: 18rem">
+            <h5 class="card-header">${name}<br /><br />Manager</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">ID: ${id}</li>
+                <li class="list-group-item">Email Address: ${email}</li>
+                <li class="list-group-item">Office Phone: ${officePhone}</li>
+            </ul>
+            </div>
+        </div>`
+        }
+        console.log("adding team staff");
+        fs.appendFile("./output/index.html", data, function (err) {
+            if (err) {
+                return reject(err);
+            };
+            return resolve();
+        });
+    });
+    
+            
+    
+        
+    
+    
+}
+
+function finishHtml() {
+    const html = ` </div>
+    </div>
+    
+</body>
+</html>`;
+
+    fs.appendFile("./output/team.html", html, function (err) {
+        if (err) {
+            console.log(err);
+        };
+    });
+    console.log("end");
 }
 
 

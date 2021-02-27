@@ -96,3 +96,21 @@ function engineerQs () {
             }
         });
 }
+
+function internQs (){
+    inquirer.prompt(intQuestions)
+        .then((data) => {
+            fs.appendFileSync('./dist/index.html');
+
+            if (data.intAnother === "Add an Engineer") {
+                return engineerQ();
+            }
+            else if (data.intAnother === "Add an Intern") {
+                return internQ();
+            }
+            else {
+                fs.appendFileSync('./dist/index.html');
+                return console.log("Your team has been complete!");
+            }
+        });
+}

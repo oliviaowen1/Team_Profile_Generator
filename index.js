@@ -72,7 +72,7 @@ function init() {
                 return internQs();
             }
             else {
-                // writeToFile(data);
+                writeToFile(data.toString());
                 fs.appendFileSync('./dist/index.html');
                 return console.log("Your team has been complete!");
             }
@@ -90,7 +90,7 @@ function engineerQs () {
                 return internQs();
             }
             else {
-                // writeToFile(data);
+                writeToFile(data.toString());
                 fs.appendFileSync('./dist/index.html');
                 return console.log("Your team has been complete!");
             }
@@ -108,7 +108,7 @@ function internQs (){
                 return internQ();
             }
             else {
-                // writeToFile(data);
+                writeToFile(data.toString());
                 fs.appendFileSync('./dist/index.html');
                 return console.log("Your team has been complete!");
             }

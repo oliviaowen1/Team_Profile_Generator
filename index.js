@@ -72,7 +72,7 @@ function init() {
                 return internQs();
             }
             else {
-                writeToFile(data.toString());
+                console.log(data.toString()); writeToFile(data.toString());
                 fs.appendFileSync('./dist/index.html');
                 return console.log("Your team has been complete!");
             }
@@ -147,5 +147,6 @@ function starterHtml(data) {
     });
     console.log("start");
 }
+
 
 init();

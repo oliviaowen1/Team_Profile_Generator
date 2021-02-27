@@ -60,9 +60,3 @@ const intQuestions = [
         message: "Do you want to add another team member?",
         choices: ['Add an Engineer', 'Add an Intern', 'I do not want to add anyone else']}
 ];
-
-function addMember() {
-    inquirer.prompt([{
-
-    }])
-};

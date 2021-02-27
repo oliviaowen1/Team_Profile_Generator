@@ -60,3 +60,21 @@ const intQuestions = [
         message: "Do you want to add another team member?",
         choices: ['Add an Engineer', 'Add an Intern', 'I do not want to add anyone else']}
 ];
+
+function init() {
+    inquirer.prompt(manQuestions)
+    .then(function(data){
+        writeToFile(data);
+
+            if (data.manAnother === "Add an Engineer") {
+                return engineerQs();
+            }
+            else if (data.manAnother === "Add an Intern") {
+                return internQs();
+            }
+            else {
+                fs.appendFileSync('/dist/index.html');
+                return console.log("Your team has been complete!");
+            }
+    })
+}

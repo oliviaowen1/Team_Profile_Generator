@@ -73,8 +73,26 @@ function init() {
                 return internQs();
             }
             else {
-                fs.appendFileSync('/dist/index.html');
+                fs.appendFileSync('./dist/index.html');
                 return console.log("Your team has been complete!");
             }
     })
+}
+
+function engineerQs () {
+    inquirer.prompt(engQuestions)
+        .then((data) => {
+            fs.appendFileSync('./dist/index.html');
+
+            if (data.engAnother === "Add an Engineer") {
+                return engineerQs();
+            }
+            else if (data.engAnother === "Add an Intern") {
+                return internQs();
+            }
+            else {
+                fs.appendFileSync('./dist/index.html');
+                return console.log("Your team has been complete!");
+            }
+        });
 }

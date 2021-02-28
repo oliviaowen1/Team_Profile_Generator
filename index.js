@@ -202,7 +202,7 @@ function staffProfiles(member) {
             data = `
             <!-- Engineer Employee Card -->
             <div class="col d-sm-flex justify-content-center">
-                <div class="card employee-card mt-4">
+                <div class="card employee-card mt-4 bg-primary">
                     <div class="card-header">
                         <h2 class="card-title">${name}</h2>
                         <h3 class="card-title"><i class="fas fa-glasses mr-2"></i>Engineer</h3>
@@ -222,7 +222,7 @@ function staffProfiles(member) {
             data = `
             <!-- Intern Employee Card -->          
             <div class="col d-sm-flex justify-content-center">
-                <div class="card employee-card mt-4">
+                <div class="card employee-card mt-4 bg-primary">
                     <div class="card-header">
                         <h2 class="card-title">${name}</h2>
                         <h3 class="card-title"><i class="fas fa-user-graduate mr-2"></i>Intern</h3>
@@ -242,7 +242,7 @@ function staffProfiles(member) {
             data = `
             <!-- Manager Employee Card -->
             <div class="col d-sm-flex justify-content-center">
-                <div class="card employee-card mt-4">
+                <div class="card employee-card mt-4 bg-primary">
                     <div class="card-header">
                         <h2 class="card-title">${name}</h2>
                         <h3 class="card-title"><i class="fas fa-mug-hot mr-2"></i>Manager</h3>
@@ -272,26 +272,6 @@ function htmlFooter() {
     const html = `
         </div>
     </main>  
-            
-    <!-- Fixed Footer Section -->
-    <footer class="footer fixed-bottom text-white text-center">
-        <div class="container-fluid bg-info pt-2">
-        </div>
-        <div class="row bg-dark pt-2">
-            <div class="col-12 col-md-6 text-md-right align-items-center ">
-                <ul class="list-unstyled list-inline mb-1">
-                    <li class="list-inline-item "><a href="https://www.github.com/loosekonnection" target="_blank"
-                            class="fa fa-github"></a></li>
-                    <li class="list-inline-item "><a href="https://www.linkedin.com/in/loosekonnection" target="_blank"
-                            class="fa fa-linkedin"></a></li>
-                    <li class="list-inline-item "><a href="https://twitter.com/loosekonnection" target="_blank"
-                            class="fa fa-twitter"></a></li>
-                </ul>
-            </div>
-            <div class="col-12 col-md-6 text-md-left align-items-center">
-            <p> Copyright &#169; 2021 - Loosekonnection</p>
-            </div>
-        </div>
     </footer>
     <!-- Bootstrap jQuery, Popper.js, and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

@@ -239,7 +239,7 @@ function staffProfiles(member) {
             </div>    
             `;
         }
-        console.log("Team Member's Profile Added");
+        console.log("Team Member's Profile Has Been Added");
         fs.appendFile('./dist/index.html', data, function (error) {
             if (error) {
                 return reject(error);
@@ -274,7 +274,7 @@ function htmlFooter() {
             console.log(error);
         };
     });
-    console.log("Success! Your index.html file has been created.");
+    console.log("Your index.html file has been successfully created.");
 }
 
 init();

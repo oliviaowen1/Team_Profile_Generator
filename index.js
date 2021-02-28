@@ -20,17 +20,17 @@ function manQuests() {
     inquirer.prompt([
         {
             type: 'input',
-            message: "Please enter the teams Manager's name: ",
+            message: "What is the team managers name? ",
             name: 'name'
         },
         {
             type: 'input',
-            message: "Please enter the teams' Manager's ID: ",
+            message: "What is the team managers ID? ",
             name: "id"
         },
         {
             type: 'input',
-            message: "Please enter the teams' Manager's email address: ",
+            message: "What is the teams' Manager's email address: ",
             name: 'email'
         },
         {
@@ -79,22 +79,22 @@ function engQuestions() {
     inquirer.prompt([
         {
             type: 'input',
-            message: "Please enter the new Engineer's name:",
+            message: "What is the new Engineer's name?  ",
             name: 'name'
         },
         {
             type: 'input',
-            message: "Please enter the new Engineer's id:",
+            message: "What is the new Engineer's ID?  ",
             name: "id"
         },
         {
             type: 'input',
-            message: "Please enter the new Engineer's email address:",
+            message: "What is the new Engineer's email address?  ",
             name: 'email'
         },
         {
             type: 'input',
-            message: "Please enter the new Engineer's GitHub username:",
+            message: "Please enter the Engineer's GitHub username:  ",
             name: 'github'
         },
     ]).then(function ({ name, id, email, github }) {
@@ -110,22 +110,22 @@ function intQuestions() {
     inquirer.prompt([
         {
             type: 'input',
-            message: "Please enter the new Intern's name:",
+            message: "What is the Interns' name?  ",
             name: 'name'
         },
         {
             type: 'input',
-            message: "Please enter the new Intern's id:",
+            message: "What is the Interns' ID?  ",
             name: "id"
         },
         {
             type: 'input',
-            message: "Please enter the new Interns's email address:",
+            message: "What is the Interns' email address:  ",
             name: 'email'
         },
         {
             type: 'input',
-            message: "Please enter the new Interns's school :",
+            message: "Please enter the Interns' school :",
             name: 'school'
         },
     ]).then(function ({ name, id, email, school }) {

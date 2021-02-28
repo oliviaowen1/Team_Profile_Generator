@@ -1,215 +1,319 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 
-const Manager = require("./lib/Manager");
-const Engineer = require("./lib/Engineer");
-const Intern = require("./lib/Intern");
+const Manager = require("./lib/manager");
+const Engineer = require("./lib/engineer");
+const Intern = require("./lib/intern");
 
-const manQuestions = [
-    {type: 'input',
-        name: 'manName',
-        message: "What is the team managers name?",},
-    {type: 'input',
-        name: 'manID',
-        message: "What is the managers ID?",},
-    {type: "input",
-        name: "manEmail",
-        message: "What is the managers email address?"},
-    {type: "input",
-        name: "manPhone",
-        message: "What's the managers office phone?"},
-    {type: "list",
-        name: "manAnother",
-        message: "Do you want to add another team staff?",
-        choices: ['Add an Engineer', 'Add an Intern', 'I do not want to add anyone else']}
-];
 
-const engQuestions = [
-    {type: 'input',
-        name: 'engName',
-        message: "What is the engineers name?",},
-    {type: 'input',
-        name: 'engID',
-        message: "What is the engineers ID?",},
-    {type: "input",
-        name: "engEmail",
-        message: "What is the engineers email address?"},
-    {type: "input",
-        name: "engGitHub",
-        message: "What's the engineers GitHub username?"},
-    {type: "list",
-        name: "engAnother",
-        message: "Do you want to add another team staff?",
-        choices: ['Add an Engineer', 'Add an Intern', 'I do not want to add anyone else']}
-];
-const intQuestions = [
-    {type: 'input',
-        name: 'intName',
-        message: "What is the interns name?",},
-    {type: 'input',
-        name: 'intID',
-        message: "What is the interns ID?",},
-    {type: "input",
-        name: "intEmail",
-        message: "What is the interns email address?"},
-    {type: "input",
-        name: "intSchool",
-        message: "What is the interns school?"},
-    {type: "list",
-        name: "intAnother",
-        message: "Do you want to add another team staff?",
-        choices: ['Add an Engineer', 'Add an Intern', 'I do not want to add anyone else']}
-];
+// This is an empty array as it will add employees as they are added by the user
+const employees = [];
 
+// This function initialises the first questions function
 function init() {
-    inquirer.prompt(manQuestions)
-    .then((data) => {
-
-            if (data.manAnother == "Add an Engineer") {
-                return engineerQs();
-            }
-            else if (data.manAnother == "Add an Intern") {
-                return internQs();
-            }
-            else {
-                starterHtml();
-                return console.log("Your team has been complete!");
-            }
-    })
+    htmlBase();
+    manQuests();
 }
 
-function engineerQs () {
-    inquirer.prompt(engQuestions)
-        .then((data) => {
-
-            if (data.engAnother == "Add an Engineer") {
-                return engineerQs();
-            }
-            else if (data.engAnother == "Add an Intern") {
-                return internQs();
-            }
-            else {
-                starterHtml();
-                return console.log("Your team has been complete!");
-            }
-        });
+// These are the managers questions
+function manQuests() {
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: "Please enter the teams Manager's name: ",
+            name: 'name'
+        },
+        {
+            type: 'input',
+            message: "Please enter the teams' Manager's ID: ",
+            name: "id"
+        },
+        {
+            type: 'input',
+            message: "Please enter the teams' Manager's email address: ",
+            name: 'email'
+        },
+        {
+            type: 'input',
+            message: "Please enter the teams' Manager's office phone number: ",
+            name: 'officeNumber'
+        },
+        // The below takes the names of each question so we can reference the inputs later
+    ]).then(function ({ name, id, email, officeNumber }) {
+        let manager = new Manager(name, id, email, officeNumber);
+    //    By pushing the below this pushes it to append to our page
+        employees.push(manager);
+        // This then run the next functions, to ask if more staff want to be added
+        staffProfiles(manager);
+        nextStaff();
+    });
 }
 
-function internQs (){
-    inquirer.prompt(intQuestions)
-        .then((data) => {
-
-            if (data.intAnother == "Add an Engineer") {
-                return engineerQ();
-            }
-            else if (data.intAnother == "Add an Intern") {
-                return internQ();
-            }
-            else {
-                starterHtml();
-                return console.log("Your team has been complete!");
-            }
-        });
-}
-
-
-function starterHtml(data) {
-    const html = `<!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <title>Team Profile Generator</title>
-    </head>
-    <body>
-        <nav class="navbar navbar-dark bg-dark mb-5">
-            <span class="navbar-brand mb-0 h1 w-100 text-center">Team Profile</span>
-        </nav>
-        <div class="container">
-            <div class="row">`;
-    fs.writeFile("./dist/index.html", html, function(err) {
-        if (err) {
-            console.log(err);
+// This function allows the user to choose if they want to add more colleagues
+function nextStaff() {
+    inquirer.prompt([
+        {
+            type: 'list',
+            message: "Which type of team member would you like to add?",
+            choices: [
+                'Engineer',
+                'Intern',
+                'I do not wish to add anybody else'
+            ],
+            name: 'addStaff'
+        },
+        // depending on what the user selects this then runs the next function
+    ]).then(function ({ addStaff }) {
+        if (addStaff === 'Engineer') {
+            return engQuestions();    
+        } else if (addStaff === 'Intern') {
+            return  intQuestions();
+        } else {
+            htmlFooter();
         }
     });
-    addHtml();
 }
-function addHtml(staff) {
-    return new Promise(function(resolve, reject) {
-        const name = staff.getName();
-        const role = staff.getRole();
-        const id = staff.getId();
-        const email = staff.getEmail();
-        let data = "";
-        if (role === "Engineer") {
-            const gitHub = staff.getGithub();
-            data = `<div class="col-6">
-            <div class="card mx-auto mb-3" style="width: 18rem">
-            <h5 class="card-header">${name}<br /><br />Engineer</h5>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">ID: ${id}</li>
-                <li class="list-group-item">Email Address: ${email}</li>
-                <li class="list-group-item">GitHub: ${gitHub}</li>
-            </ul>
+
+// Add Engineer Questions function
+function engQuestions() {
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: "Please enter the new Engineer's name:",
+            name: 'name'
+        },
+        {
+            type: 'input',
+            message: "Please enter the new Engineer's id:",
+            name: "id"
+        },
+        {
+            type: 'input',
+            message: "Please enter the new Engineer's email address:",
+            name: 'email'
+        },
+        {
+            type: 'input',
+            message: "Please enter the new Engineer's GitHub username:",
+            name: 'github'
+        },
+    ]).then(function ({ name, id, email, github }) {
+        let engineer = new Engineer(name, id, email, github);
+        employees.push(engineer);
+        staffProfiles(engineer)
+        nextStaff();
+    });
+}
+
+// Add Intern Questions function
+function intQuestions() {
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: "Please enter the new Intern's name:",
+            name: 'name'
+        },
+        {
+            type: 'input',
+            message: "Please enter the new Intern's id:",
+            name: "id"
+        },
+        {
+            type: 'input',
+            message: "Please enter the new Interns's email address:",
+            name: 'email'
+        },
+        {
+            type: 'input',
+            message: "Please enter the new Interns's school :",
+            name: 'school'
+        },
+    ]).then(function ({ name, id, email, school }) {
+        let intern = new Intern(name, id, email, school);
+        employees.push(intern);
+        staffProfiles(intern)
+        nextStaff();
+    });
+}
+
+function htmlBase() {
+    const html = `
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <!-- Internal CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Page Web Browser Tab Title -->
+    <title>Team Profiles</title>
+</head>  
+<body>
+    <!-- Nav Section -->
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <a class="navbar-brand" href="https://github.com/Loosekonnection/profileGenerator" target="_blank">GitHub
+                Repo</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav ">
+                    <a class="nav-item nav-link" href="#"><span class="sr-only">(current)</span></a>
+                    <a class="nav-item nav-link" href="#"></a>
+                    <a class="nav-item nav-link" href="#"></a>
+                </div>
             </div>
-        </div>`;
-        } else if (role === "Intern") {
-            const school = staff.getSchool();
-            data = `<div class="col-6">
-            <div class="card mx-auto mb-3" style="width: 18rem">
-            <h5 class="card-header">${name}<br /><br />Intern</h5>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">ID: ${id}</li>
-                <li class="list-group-item">Email Address: ${email}</li>
-                <li class="list-group-item">School: ${school}</li>
-            </ul>
-            </div>
-        </div>`;
-        } else {
-            const officePhone = staff.getOfficeNumber();
-            data = `<div class="col-6">
-            <div class="card mx-auto mb-3" style="width: 18rem">
-            <h5 class="card-header">${name}<br /><br />Manager</h5>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">ID: ${id}</li>
-                <li class="list-group-item">Email Address: ${email}</li>
-                <li class="list-group-item">Office Phone: ${officePhone}</li>
-            </ul>
-            </div>
-        </div>`
+        </nav>
+    </header>
+    <!-- Banner Section -->
+    <section class="jumbotron jumbotron-fluid bg-info text-white text-center">
+        <div class="container">
+            <h1 class="display-3">My Team</h1>
+        </div>
+    </section>
+    <!-- Main Employee Card Section-->
+    <main class="container">
+        <div class="row">
+    `;
+    fs.writeFile('./dist/index.html', html, function (error) {
+        if (error) {
+            console.log(error);
         }
-        console.log("adding team staff");
-        fs.appendFile("./output/index.html", data, function (err) {
-            if (err) {
-                return reject(err);
+    });
+}
+
+function staffProfiles(member) {
+    return new Promise(function (resolve, reject) {
+
+        const name = member.getName();
+        const id = member.getId();
+        const email = member.getEmail();
+        const role = member.getRole();
+
+        let data = '';
+        if (role === 'Engineer') {
+            const github = member.getGithub();
+            data = `
+            <!-- Engineer Employee Card -->
+            <div class="col d-sm-flex justify-content-center">
+                <div class="card employee-card mt-4">
+                    <div class="card-header">
+                        <h2 class="card-title">${name}</h2>
+                        <h3 class="card-title"><i class="fas fa-glasses mr-2"></i>Engineer</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">ID: ${id}</li>
+                            <li class="list-group-item">Email: <a href="mailto:${email}">${email}</a></li>
+                            <li class="list-group-item">GitHub: <a href="https://github.com/${github}" target="_blank">${github}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            `;
+        } else if (role === 'Intern') {
+            const school = member.getSchool();
+            data = `
+            <!-- Intern Employee Card -->          
+            <div class="col d-sm-flex justify-content-center">
+                <div class="card employee-card mt-4">
+                    <div class="card-header">
+                        <h2 class="card-title">${name}</h2>
+                        <h3 class="card-title"><i class="fas fa-user-graduate mr-2"></i>Intern</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">ID: ${id}</li>
+                            <li class="list-group-item">Email: <a href="mailto:${email}">${email}</a></li>
+                            <li class="list-group-item">School: ${school}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>              
+            `;
+        } else {
+            const officeNumber = member.getOfficeNum();
+            data = `
+            <!-- Manager Employee Card -->
+            <div class="col d-sm-flex justify-content-center">
+                <div class="card employee-card mt-4">
+                    <div class="card-header">
+                        <h2 class="card-title">${name}</h2>
+                        <h3 class="card-title"><i class="fas fa-mug-hot mr-2"></i>Manager</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">ID: ${id}</li>
+                            <li class="list-group-item">Email: <a href="mailto:${email}">${email}</a></li>
+                            <li class="list-group-item">Office Number: ${officeNumber}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>    
+            `;
+        }
+        console.log("Team Member's Profile Added");
+        fs.appendFile('./dist/index.html', data, function (error) {
+            if (error) {
+                return reject(error);
             };
             return resolve();
         });
     });
-    
-            
-    
-        
-    
-    
 }
 
-function finishHtml() {
-    const html = ` </div>
-    </div>
-    
-</body>
-</html>`;
+function htmlFooter() {
+    const html = `
+        </div>
+    </main>  
+            
+    <!-- Fixed Footer Section -->
+    <footer class="footer fixed-bottom text-white text-center">
+        <div class="container-fluid bg-info pt-2">
+        </div>
+        <div class="row bg-dark pt-2">
+            <div class="col-12 col-md-6 text-md-right align-items-center ">
+                <ul class="list-unstyled list-inline mb-1">
+                    <li class="list-inline-item "><a href="https://www.github.com/loosekonnection" target="_blank"
+                            class="fa fa-github"></a></li>
+                    <li class="list-inline-item "><a href="https://www.linkedin.com/in/loosekonnection" target="_blank"
+                            class="fa fa-linkedin"></a></li>
+                    <li class="list-inline-item "><a href="https://twitter.com/loosekonnection" target="_blank"
+                            class="fa fa-twitter"></a></li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-6 text-md-left align-items-center">
+            <p> Copyright &#169; 2021 - Loosekonnection</p>
+            </div>
+        </div>
+    </footer>
+    <!-- Bootstrap jQuery, Popper.js, and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+        integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+        crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/1ac5a0514e.js" crossorigin="anonymous"></script>
+    </body>
+</html>
+`;
 
-    fs.appendFile("./output/team.html", html, function (err) {
-        if (err) {
-            console.log(err);
+    fs.appendFile("./dist/index.html", html, function (error) {
+        if (error) {
+            console.log(error);
         };
     });
-    console.log("end");
+    console.log("Success! Your index.html file has been created.");
 }
-
 
 init();

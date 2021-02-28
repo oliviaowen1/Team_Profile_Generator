@@ -147,32 +147,13 @@ function htmlBase() {
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <!-- Internal CSS -->
     <link rel="stylesheet" href="style.css">
-    <!-- Page Web Browser Tab Title -->
     <title>Team Profiles</title>
 </head>  
 <body>
-    <!-- Nav Section -->
-    <header class="sticky-top">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-            <a class="navbar-brand" href="https://github.com/Loosekonnection/profileGenerator" target="_blank">GitHub
-                Repo</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav ">
-                    <a class="nav-item nav-link" href="#"><span class="sr-only">(current)</span></a>
-                    <a class="nav-item nav-link" href="#"></a>
-                    <a class="nav-item nav-link" href="#"></a>
-                </div>
-            </div>
-        </nav>
-    </header>
+    
     <!-- Banner Section -->
-    <section class="jumbotron jumbotron-fluid bg-info text-white text-center">
+    <section class="jumbotron jumbotron-fluid bg-danger text-white text-center">
         <div class="container">
             <h1 class="display-3">My Team</h1>
         </div>
